@@ -23,6 +23,9 @@ library(babynames)
 ### Understanding Data Types and Structures  
 
 Load the `tidyverse` library and explore different R data types by running the code below. For each block, **predict the output before running it** and observe what `typeof()`, `class()`, and `str()` tell you.
+"typeof()" determines the type or storage mode of any object
+e.g. "logical", "integer", "double", "complex", "character", "raw" and "list", "NULL", "closure" (function), "special" and "builtin" (basic functions and operators), "environment", "S4" (some S4 objects) and others
+"class()"
 
 #### Atomic Vectors - Doubles  
 
@@ -54,7 +57,7 @@ str(x)
 
 *Write your thoughts here:*
 
-
+# double is any numbers (incl those with decimal places), whereas integer is specifically for whole numbers. When we create the string using a vector using c() or sequence, then it saves the values as a "double", however the colon operator saves the values as integers
 
 #### Atomic Vectors - Integers  
 
@@ -131,7 +134,9 @@ glue::glue("This unit is great.
 
 *Write your analysis here:*
 
-
+"Paste" sticks the items contained in the "" together (like pasting things together), on one line.
+"Cat" can also stick the items contained in the "" together, however it can also create new lines using "\n"
+Finally, "Glue" allows expressions which are enclosed by the brackets to be evaluated as R code
 
 #### Atomic Vectors - Logicals  
 
@@ -173,7 +178,12 @@ str(x)
 
 *Write your explanation here:*
 
+'1 <- 1' causes an error as it essentially tries to assign the value '1' a value of '1' which doesn't work as you can only assign values to variables, not to literal values like numbers.
 
+= is the assignment operator. It assigns a value to a variable
+This means "assign the value 5 to the variable x."
+
+== is the equality comparison operator. It tests whether two values are equal and returns TRUE or FALSE.
 
 #### Factors  
 
@@ -201,6 +211,8 @@ as.character(x)
 
 *Write your thoughts here:*
 
+Character Vectors store text as strings, where each element is a string - useful for RAW TEXT DATA
+Conversely, factors store categorical data, and are typically stored as integers with associated levels (unique categories) - usefule for STATISTICAL MODELLING, PLOTTING (where categories matter)
 
 
 ### Working with Matrices and Arrays  
