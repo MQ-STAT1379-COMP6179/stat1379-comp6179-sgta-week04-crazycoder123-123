@@ -431,7 +431,8 @@ waldo::compare(weather_data, weather_check)
 
 *Write your thoughts here:*
 
-
+Created the "my_weather_data.csv" file
+It is good practice to read the data back after saving to ensure that it saved correctly and to minimise errors.
 
 ### Selecting and Modifying Values  
 
@@ -714,13 +715,15 @@ filter(babynames, name == Sea)
 **Your corrected code:**
 ```{r fix-code-student, eval=FALSE}
 # Fixed code here:
-
+filter(babynames, name == "Sea")
+filter(babynames, name == "Sea")
 
 ```
 
 **Your explanation of what was wrong:**
 
-
+"Sea" is a character string, therefore requires the brackets
+"==" is required to search for the requirement, as "=" assigns values to variables.
 
 ## Problem 2: Most Popular Names  
 
@@ -728,17 +731,19 @@ Which name was the most popular for a single gender in a single year? Compare ar
 
 ```{r popular-names-student, eval=FALSE}
 # Your code to find highest proportion:
-
-
+babynames |> 
+  arrange(desc(prop))
+babynames |>
+  arrange(desc(n))
 # Your code to find highest count:
-
+max(babynames$n)
 
 ```
 
 **Your analysis:**
 - Are the results the same? Why or why not?
 
-
+No the results are not the same as the proportion depends on how many babies were born in a given year, hence if a lot more babies were born in a given year, but only a few more babies of a given name, then proportionately, there would have been less babies born with that name.
 
 ## Problem 3: Popular Girls Names in 2017  
 
@@ -750,7 +755,10 @@ Write a pipeline that will:
 
 ```{r girls-2017-student, eval=FALSE}
 # Your pipeline here:
-
+babynames |>
+  filter(year == 2017, sex == "F") |>
+  select(name, n) |>
+  arrange(desc(n))
 
 ```
 
@@ -780,6 +788,11 @@ table4b  # Population
 
 *Write your analysis here:*
 
+table1 is tidy as it contains all the data but is still readable
+table2 is less readable and it is harder to distinguish the cases and population
+table3 could be suitable, however it is marginally harder to read the "rate" compared the the number of cases and population number as the data isn't formatted to be separated at a given character (and it is therefore a bit messier)
+table4 removes the number of cases so there is some data missing
+table5 also removes the number of cases so there is some data missing
 
 
 ## Pivoting Data: Lengthening and Widening  
@@ -833,11 +846,43 @@ cholesterol_data
 
 ```{r cholesterol-solution-student, eval=FALSE}
 # Task 1 - Convert to long format:
-
+cholesterol_data_long <- cholesterol_data |>
+  pivot_longer(
+    cols = c(`oat_bran`, `oat_bran_free`),    # Columns to pivot
+    names_to = "Diet_type",           # Name for the key column
+    values_to = c("Cholesterol_level")          # Name for the value column
+  )
+cholesterol_data_long
 
 # Task 2 - Calculate summary statistics:
+## count the rows where oat bran and oat bran free??
+cholesterol_data_long |>
+  filter(Diet_type == "oat_bran") |>
+  nrow()
 
+cholesterol_data_long |>
+  filter(Diet_type == "oat_bran_free") |>
+  nrow()
 
+cholesterol_data_long |>
+  filter(Diet_type == "oat_bran") |>
+  pull(Cholesterol_level) |>
+  mean()
+
+cholesterol_data_long |>
+  filter(Diet_type == "oat_bran_free") |>
+  pull(Cholesterol_level) |>
+  mean()
+
+cholesterol_data_long |>
+  filter(Diet_type == "oat_bran") |>
+  pull(Cholesterol_level) |>
+  sd()
+
+cholesterol_data_long |>
+  filter(Diet_type == "oat_bran_free") |>
+  pull(Cholesterol_level) |>
+  sd()
 ```
 
 **Your interpretation:**
@@ -846,7 +891,9 @@ cholesterol_data
 
 *Write your analysis here:*
 
+The Oat Bran diet appears to result in lower cholesterol with a mean of 4.508 compared to the mean cholesterol for those who had the Oat Bran Free diet.
 
+The standard deviations show that there was less variability in the cholesterol in those who had the Oat Bran Free diet, compared to the variability in cholesterol in those who were on the Oat Bran diet.
 
 ## Advanced Tidy Data Problems  
 
@@ -874,7 +921,7 @@ d. Store back in appropriate place
 
 *Write your thoughts here:*
 
-
+table2 & table 3 was tricky - where are the tables??
 
 # Final Reflection  
 
@@ -892,3 +939,4 @@ d. Store back in appropriate place
 - How might you apply these skills to your own data?
 
 *Write your thoughts here:*
+
