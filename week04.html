@@ -306,6 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>How does R fill matrices by default?</li>
 </ul>
 <p><em>Write your answer here:</em></p>
+<p>Matrices and arrays are both ways to store multi-dimensional data, however a matrix is a 2-D data strucutre which has rows and columns, and all elements must be of the same type, whilst an array can have one or more dimension (1-D, 2-D, 3-D,…) - it is a generalisation of matrices to higher dimensions. all elements must be of the same type.</p>
 </section>
 <section id="arrays" class="level4">
 <h4 class="anchored" data-anchor-id="arrays">Arrays</h4>
@@ -337,6 +338,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>How do 3-dimensional arrays work?</li>
 </ul>
 <p><em>Write your explanation here:</em></p>
+<p>When you don’t provide enough values for an array, R recycles (repeats) the given values to fill the array. If it doesn’t divide nicely, then R will recycle the elements with a warning.</p>
+<p>3D arrays are displayed by 2D arrays, where “, , z” displays the layer of the 3D array being shown.</p>
 </section>
 </section>
 <section id="working-with-lists" class="level3">
@@ -363,6 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What are the advantages of named lists?</li>
 </ul>
 <p><em>Write your analysis here:</em></p>
+<p>Vectors are an atomic data structure in R that contain elements of the same type (e.g.&nbsp;all numeric, all character, all logical etc). Conversely, lists are a recursive data structure that can contain elements of different types. Each element of a list can be a vector, a number, a string, another list, a matrix or a function. It is useful for grouping hetrogeneous data.</p>
 </section>
 <section id="working-with-data-frames-and-tibbles" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-data-frames-and-tibbles">Working with Data Frames and Tibbles</h3>
@@ -410,6 +414,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>When would you use <code>tribble()</code> instead of <code>tibble()</code>?</li>
 </ul>
 <p><em>Write your thoughts here:</em></p>
+<p>A <em>Data Frame</em> is the standard R data structure (part of base R) for tabular data that behaves like a list of equal-length vectors. A Data Frame displays all the data (which can get overwhelming). A <em>tibble</em> is part of tidyverse. It is a list of vectors that has better defaults for usability, and only displays the first 10 rows and m columns (as many columns as fit on the screen). Tibbles do NOT convert strings to factors by default</p>
+<p><em>tibble()</em> creates a table by specifying columns as vectors.</p>
+<p><em>tribble()</em> stands for transposed tibble, and is designed for creating small tibbles in a readable row-wise format (input looks more like a spreadsheet, with data entries happening row by row)</p>
 </section>
 <section id="loading-and-saving-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-and-saving-data">Loading and Saving Data</h2>
@@ -417,19 +424,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reading-data" class="level3">
 <h3 class="anchored" data-anchor-id="reading-data">Reading Data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load CSV file</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"test.csv"</span>) <span class="co"># Check the path first</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"test.csv"</span>))</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(x)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative using read_delim</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>x_delim <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"test.csv"</span>),</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">delim =</span> <span class="st">","</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>waldo<span class="sc">::</span><span class="fu">compare</span>(x, x_delim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load CSV file</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"test.csv"</span>) <span class="co"># Check the path first</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"test.csv"</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(x)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative using read_delim</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>x_delim <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"test.csv"</span>),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">delim =</span> <span class="st">","</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>waldo<span class="sc">::</span><span class="fu">compare</span>(x, x_delim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Your task:</strong></p>
 <ul>
@@ -437,6 +445,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Are there any differences between <code>read_csv()</code> and <code>read_delim()</code> results?</li>
 </ul>
 <p><em>Write your observations here:</em></p>
+<p>str() = STRUCTURE A base R function which shows the type, size and first few values of each element/component</p>
+<p>glimpse() Part of the tibble package which is designed specifically for data frames and tibbles. It displays the data horizontally with one row per column (shows variable names, data types and preview of data)</p>
+<p>read_csv() is designed specifically to read CSV files, and assumes that the deliminater is a comma</p>
+<p>read_delim is a more general function which can read delimited files, which allows the delimiter to be specified through the delim argument</p>
 </section>
 <section id="writing-data" class="level3">
 <h3 class="anchored" data-anchor-id="writing-data">Writing Data</h3>

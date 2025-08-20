@@ -238,7 +238,8 @@ m
 
 *Write your answer here:*
 
-
+Matrices and arrays are both ways to store multi-dimensional data, however a matrix is a 2-D data strucutre which has rows and columns, and all elements must be of the same type, whilst an array can have one or more dimension (1-D, 2-D, 3-D,...) - it is a generalisation of matrices to higher dimensions.
+all elements must be of the same type.
 
 #### Arrays  
 
@@ -272,7 +273,9 @@ x
 
 *Write your explanation here:*
 
+When you don't provide enough values for an array, R recycles (repeats) the given values to fill the array. If it doesn't divide nicely, then R will recycle the elements with a warning.
 
+3D arrays are displayed by 2D arrays, where ", , z" displays the layer of the 3D array being shown. 
 
 ### Working with Lists  
 
@@ -300,6 +303,7 @@ x
 
 *Write your analysis here:*
 
+Vectors are an atomic data structure in R that contain elements of the same type (e.g. all numeric, all character, all logical etc). Conversely, lists are a recursive data structure that can contain elements of different types. Each element of a list can be a vector, a number, a string, another list, a matrix or a function. It is useful for grouping hetrogeneous data.
 
 
 ### Working with Data Frames and Tibbles  
@@ -350,6 +354,11 @@ x
 
 *Write your thoughts here:*
 
+A *Data Frame* is the standard R data structure (part of base R) for tabular data that behaves like a list of equal-length vectors. A Data Frame displays all the data (which can get overwhelming). A *tibble* is part of tidyverse. It is a list of vectors that has better defaults for usability, and only displays the first 10 rows and m columns (as many columns as fit on the screen). Tibbles do NOT convert strings to factors by default
+
+*tibble()* creates a table by specifying columns as vectors.
+
+*tribble()* stands for transposed tibble, and is designed for creating small tibbles in a readable row-wise format (input looks more like a spreadsheet, with data entries happening row by row)
 
 
 ## Loading and Saving Data  
@@ -359,6 +368,7 @@ Download the `test.csv` file from iLearn and place it in a `data` subfolder with
 ### Reading Data  
 
 ```{r loading-data, eval=FALSE}
+library(here)
 # Load CSV file
 here::here("data", "test.csv") # Check the path first
 x <- read_csv(file = here::here("data", "test.csv"))
@@ -381,7 +391,15 @@ waldo::compare(x, x_delim)
 
 *Write your observations here:*
 
+str() = STRUCTURE
+A base R function which shows the type, size and first few values of each element/component
 
+glimpse() 
+Part of the tibble package which is designed specifically for data frames and tibbles. It displays the data horizontally with one row per column (shows variable names, data types and preview of data)
+
+read_csv() is designed specifically to read CSV files, and assumes that the deliminater is a comma
+
+read_delim is a more general function which can read delimited files, which allows the delimiter to be specified through the delim argument
 
 ### Writing Data  
 
